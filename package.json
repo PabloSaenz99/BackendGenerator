@@ -1,0 +1,19 @@
+{
+  "name": "backend-generator",
+  "version": "1.0.0",
+  "description": "NodeJS utility to generate a backend structure with some usefull methods. Designed for express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PabloSaenz99/BackendGenerator"
+  },
+  "author": "psb",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "yargs": "^17.7.2"
+  }
+}
