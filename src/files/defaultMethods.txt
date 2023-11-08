@@ -1,0 +1,5 @@
+[
+	[["post", ""], "createOrUpdate", "req.body"],
+	[["get", "id/:id"], "findById", "req.params.id"],
+	[["delete", "id/:id"], "deleteById", "req.params.id"]
+]

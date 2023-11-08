@@ -1,0 +1,6 @@
+[
+	[["post", "new"], "create", "req.body"],
+	[["put", "update"], "update", "req.body"],
+	[["get", "all"], "findAll"],
+	[["delete", "all"], "deleteAll"]
+]

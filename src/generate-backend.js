@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-const defaultMethodsFile = "/defaultMethods.txt";
-const defaultExtendedMethodsFile = "/defaultExtendedMethods.txt";
+const defaultMethodsFile = "./files/defaultMethods.txt";
+const defaultExtendedMethodsFile = "./files/defaultExtendedMethods.txt";
 const serviceFunctionBody = "	return; //TODO: your query function here\n";
 
 var fileBaseName = "notes"
@@ -54,7 +54,7 @@ function controller() {
 		routerString += createRoutes(customMethods);
 		controllerString += createControllers(customMethods);
 		serviceString += createServices(customMethods);
-	}ç
+	}
 	
 	routerString += "\nmodule.exports = router;";
 	
@@ -62,13 +62,13 @@ function controller() {
 	//console.log(controllerString);
 	//console.log(serviceString);
 	
-	fs.writeFile(`/routes/${fileBaseName}.routes.js`, routerString, (err) => { 
+	fs.writeFile(`./routes/${fileBaseName}.routes.js`, routerString, (err) => { 
 		if (err) throw err; 
 	});
-	fs.writeFile(`/controllers/${fileBaseName}.controller.js`, controllerString, (err) => { 
+	fs.writeFile(`./controllers/${fileBaseName}.controller.js`, controllerString, (err) => { 
 		if (err) throw err; 
 	});
-	fs.writeFile(`/services/${fileBaseName}.service.js`, serviceString, (err) => { 
+	fs.writeFile(`./services/${fileBaseName}.service.js`, serviceString, (err) => { 
 		if (err) throw err; 
 	});
 }
@@ -127,7 +127,7 @@ function createServices(services) {
 
 function readFile(filePath) {
 	try {
-		return fs.readFileSync(filePath, 'utf8');
+		return fs.readFileSync(filePath, 'utf8').replaceAll(" ", "").replaceAll("\n", "").replaceAll("\t", "");
 	} catch (err) {
 		console.error(err);
 	}
