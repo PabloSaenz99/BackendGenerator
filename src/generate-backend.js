@@ -23,7 +23,7 @@ function initConfig(name, custom, customFile, defaultM, defaultExtended) {
 		defaultMethods = readFile(defaultMethodsFile).concat(readFile(defaultExtendedMethodsFile));
 	}
 	if(custom) {
-		customMethods = custom;
+		customMethods = JSON.parse(custom.replaceAll("'", "\""));
 	}
 	else if(customFile) {
 		customMethods = readFile(customFile)

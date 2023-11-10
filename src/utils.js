@@ -4,7 +4,7 @@ var debugEnabled = false;
 
 function readFile(filePath) {
 	try {
-		return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+		return JSON.parse(fs.readFileSync(filePath, 'utf8').replaceAll("'", "\""));
 	} catch (err) {
 		console.error(err);
 	}
@@ -23,7 +23,7 @@ function writeFile(path, fileBaseName, content) {
 			}
 		}
         else {
-            logd(content);
+            //logd(content);
         }
 	});
 }
