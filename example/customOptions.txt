@@ -1,0 +1,4 @@
+[
+	[['get', 'findTrue'], 'findTrue'],
+	[['post', 'updateByEmail/:id'], 'updateByEmail','req.body']
+]

@@ -8,7 +8,7 @@ Run the following command where you want to generate the structure:
 npm generate-backend -n <filename> <option>
 ```
 
-#### Options
+### Options
 - Add default methods:
 	- This option adds the default methods shown in [defaultMethods.txt](/src/files/defaultMethods.txt)
 	    ```
@@ -28,6 +28,10 @@ npm generate-backend -n <filename> <option>
 	    ```
 	    npm generate-backend -n <filename> -f <file-path>
         ```
+	- It is possible to combine `custom options` with `default options`:
+		```
+		node index.js -n myFile -e -f "customOptions.txt"
+		```
 	- Methods **must** follow the syntax:
 	
         ```
@@ -43,17 +47,19 @@ npm generate-backend -n <filename> <option>
 		```
         npm generate-backend -n myFile -f "./customMethodsFile.txt"
         ```
-#### Considerations
+		### See also the [example]("./example") folder
+
+### Considerations
 If `custom` and `custom file` options are used, only custom option data will be used, ignoring the file.
 
 If `default` and `default extended` options are used, only default option data will be used, ignoring the extended.
 
-#### View
+### View
 The basic structure file is as follows:
 
     <main folder>
     	└ routes
-    		└ myFile.routes.js
+    		└ myFile.route.js
     	└ controllers
     		└ myFile.controller.js
     	└ services
