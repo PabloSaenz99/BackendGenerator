@@ -4,24 +4,17 @@ const defaultMethodsFile = "./files/defaultMethods.txt";
 const defaultExtendedMethodsFile = "./files/defaultExtendedMethods.txt";
 const serviceFunctionBody = "	return; //TODO: your query function here\n";
 
-var fileBaseName = "notes"
+var filePath = "";
+var fileBaseName = "";
+
 //Arrays of arrays -> [get/post/delete, endpoint], name, req param
-var customMethods = [
-	[["get", "findTrue"], "findTrue"]
-];
-var defaultMethods = [
-	[["post", ""], "createOrUpdate", "req.body"],
-	[["get", "id/:id"], "findById", "req.params.id"],
-	[["delete", "id/:id"], "deleteById", "req.params.id"],
-];
-var defaultExtendedMethods = [
-	[["post", "new"], "create", "req.body"],
-	[["put", "update"], "update", "req.body"],
-	[["get", "all"], "findAll"],
-	[["delete", "all"], "deleteAll"],
-];
+var customMethods = [];
+var defaultMethods = [];
+var defaultExtendedMethods = [];
 
 function initConfig(name, custom, customFile, defaultM, defaultExtended) {
+	//fileBaseName = name.substring(0, name.lastIndexOf("/") + 1);
+	//filePath = name.substring(name.lastIndexOf("/") + 1, name.length);
 	fileBaseName = name;
 	if(defaultM) {
 		defaultMethods = readFile(defaultMethodsFile);
@@ -57,20 +50,13 @@ function controller() {
 	}
 	
 	routerString += "\nmodule.exports = router;";
-	
 	//console.log(routerString);
 	//console.log(controllerString);
 	//console.log(serviceString);
 	
-	fs.writeFile(`./routes/${fileBaseName}.routes.js`, routerString, (err) => { 
-		if (err) throw err; 
-	});
-	fs.writeFile(`./controllers/${fileBaseName}.controller.js`, controllerString, (err) => { 
-		if (err) throw err; 
-	});
-	fs.writeFile(`./services/${fileBaseName}.service.js`, serviceString, (err) => { 
-		if (err) throw err; 
-	});
+	writeFile("routes", routerString);
+	writeFile("controllers", controllerString);
+	writeFile("services", serviceString);
 }
 
 function createDefaultRoutes() {
@@ -84,7 +70,7 @@ function createDefaultRoutes() {
 }
 
 function createDefaultController() {
-	return `${fileBaseName}Service = require("../services/${fileBaseName}.service");\n\n`;
+	return `const ${fileBaseName}Service = require("../services/${fileBaseName}.service.js");\n\n`;
 }
 
 function createDefaultService() {
@@ -116,8 +102,8 @@ function createControllers(controllers) {
 
 function createServices(services) {
 	var res = "";
-	services.forEach(s => {		
-		res += `export async function ${s[1]}(${s[2]?s[2]: ""}){\n`;
+	services.forEach(s => {
+		res += `export async function ${s[1]}(${s[2]?"param": ""}){\n`;
 		res += serviceFunctionBody;
 		res += `};\n\n`;
 	});	
@@ -127,10 +113,24 @@ function createServices(services) {
 
 function readFile(filePath) {
 	try {
-		return fs.readFileSync(filePath, 'utf8').replaceAll(" ", "").replaceAll("\n", "").replaceAll("\t", "");
+		return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 	} catch (err) {
 		console.error(err);
 	}
+}
+
+function writeFile(path, content) {
+	fs.writeFile(`./${path}/${fileBaseName}.${path.slice(0, -1)}.js`, content, { encoding: "utf8" }, (err) => {
+		if (err) {
+			if(err.code==='ENOENT') {
+				fs.mkdirSync(`./${path}/`, { recursive: true });
+				writeFile(path, content);
+			}
+			else {
+				throw err; 
+			}
+		}
+	});
 }
 
 module.exports = {initConfig, controller, serviceFunctionBody}
