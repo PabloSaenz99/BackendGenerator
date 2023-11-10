@@ -5,17 +5,17 @@ This tool generates a file structure system for backend develeopment. Its better
 ## Basic usage
 Run the following command where you want to generate the structure:
 ```
-npm generate-backend -n <filename>
+npm generate-backend -n <filename> <option>
 ```
 
 #### Options
 - Add default methods:
-	- This option adds the default methods shown in `defaultMethods.txt`
+	- This option adds the default methods shown in [defaultMethods.txt](/src/files/defaultMethods.txt)
 	    ```
         npm generate-backend -n <filename> -d
         ```
 - Add default extended methods:
-	- This option adds the default methods shown in `defaultExtendedMethods.txt`
+	- This option adds the default methods shown in [defaultExtendedMethods.txt](/src/files/defaultExtendedMethods.txt)
     	```
         npm generate-backend -n <filename> -e
         ```

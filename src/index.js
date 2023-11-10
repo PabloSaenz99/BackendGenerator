@@ -7,8 +7,9 @@ const options = yargs
 	.option("n", { alias: "name", desc: "Adds the name of the service", type: "string", demandOption: true })
 	.option("c", { alias: "custom", desc: "Adds the custom methods", type: "array", demandOption: false })
 	.option("f", { alias: "customFile", desc: "Adds the custom methods using a file", type: "string", demandOption: false })
-	.option("d", { alias: "default", desc: "Adds the default methods", type: "string", demandOption: false })
-	.option("e", { alias: "defaultExtended", desc: "Adds the default methods and some more", type: "string", demandOption: false })
+	.option("d", { alias: "default", desc: "Adds the default methods", type: "boolean", demandOption: false })
+	.option("e", { alias: "defaultExtended", desc: "Adds the default methods and some more", type: "boolean", demandOption: false })
+	.option("debug", { desc: "Show logs", type: "boolean", demandOption: false })
 	.check((argv, options) => {
 		const arguments = Object.keys(argv).length;
 		if (arguments <= 2) {
@@ -21,7 +22,9 @@ const options = yargs
 	})
 	.argv;
 
-console.log(options);
+const {setDebugMode, logd} = require("./utils");
+setDebugMode(options.debug);
+logd(options)
 
 const {initConfig, controller} = require("./generate-backend");
 

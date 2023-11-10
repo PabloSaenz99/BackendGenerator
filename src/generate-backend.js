@@ -1,16 +1,16 @@
-const fs = require('fs');
+const { readFile, writeFile } = require('./utils');
 
-const defaultMethodsFile = "./files/defaultMethods.txt";
-const defaultExtendedMethodsFile = "./files/defaultExtendedMethods.txt";
+const defaultMethodsFile = "files/defaultMethods.txt";
+const defaultExtendedMethodsFile = "files/defaultExtendedMethods.txt";
 const serviceFunctionBody = "	return; //TODO: your query function here\n";
 
 var filePath = "";
 var fileBaseName = "";
 
 //Arrays of arrays -> [get/post/delete, endpoint], name, req param
-var customMethods = [];
-var defaultMethods = [];
-var defaultExtendedMethods = [];
+var customMethods = undefined;
+var defaultMethods = undefined;
+var defaultExtendedMethods = undefined;
 
 function initConfig(name, custom, customFile, defaultM, defaultExtended) {
 	//fileBaseName = name.substring(0, name.lastIndexOf("/") + 1);
@@ -50,13 +50,12 @@ function controller() {
 	}
 	
 	routerString += "\nmodule.exports = router;";
-	//console.log(routerString);
-	//console.log(controllerString);
-	//console.log(serviceString);
 	
-	writeFile("routes", routerString);
-	writeFile("controllers", controllerString);
-	writeFile("services", serviceString);
+	writeFile("routes", fileBaseName, routerString);
+	writeFile("controllers", fileBaseName, controllerString);
+	writeFile("services", fileBaseName, serviceString);
+
+	console.log("Backend data generated in " + fileBaseName);
 }
 
 function createDefaultRoutes() {
@@ -109,28 +108,6 @@ function createServices(services) {
 	});	
 	
 	return res;
-}
-
-function readFile(filePath) {
-	try {
-		return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-	} catch (err) {
-		console.error(err);
-	}
-}
-
-function writeFile(path, content) {
-	fs.writeFile(`./${path}/${fileBaseName}.${path.slice(0, -1)}.js`, content, { encoding: "utf8" }, (err) => {
-		if (err) {
-			if(err.code==='ENOENT') {
-				fs.mkdirSync(`./${path}/`, { recursive: true });
-				writeFile(path, content);
-			}
-			else {
-				throw err; 
-			}
-		}
-	});
 }
 
 module.exports = {initConfig, controller, serviceFunctionBody}
