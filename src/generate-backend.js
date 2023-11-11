@@ -1,7 +1,7 @@
-const { readFile, writeFile } = require('./utils');
+const { readFile, writeFile, logd } = require('./utils');
 
-const defaultMethodsFile = "files/defaultMethods.txt";
-const defaultExtendedMethodsFile = "files/defaultExtendedMethods.txt";
+const defaultMethodsFile = "src/files/defaultMethods.txt";
+const defaultExtendedMethodsFile = "src/files/defaultExtendedMethods.txt";
 const serviceFunctionBody = "	return; //TODO: your query function here\n";
 
 var filePath = "";
@@ -13,9 +13,11 @@ var defaultMethods = undefined;
 var defaultExtendedMethods = undefined;
 
 function initConfig(name, custom, customFile, defaultM, defaultExtended) {
-	//fileBaseName = name.substring(0, name.lastIndexOf("/") + 1);
-	//filePath = name.substring(name.lastIndexOf("/") + 1, name.length);
-	fileBaseName = name;
+	filePath = name.substring(0, name.lastIndexOf("/") + 1);
+	fileBaseName = name.substring(name.lastIndexOf("/") + 1, name.length);
+	logd(fileBaseName);
+	logd(filePath);
+
 	if(defaultM) {
 		defaultMethods = readFile(defaultMethodsFile);
 	}
@@ -51,9 +53,9 @@ function controller() {
 	
 	routerString += "\nmodule.exports = router;";
 	
-	writeFile("routes", fileBaseName, routerString);
-	writeFile("controllers", fileBaseName, controllerString);
-	writeFile("services", fileBaseName, serviceString);
+	writeFile(filePath + "routes", fileBaseName, routerString);
+	writeFile(filePath + "controllers", fileBaseName, controllerString);
+	writeFile(filePath + "services", fileBaseName, serviceString);
 
 	console.log("Backend data generated in " + fileBaseName);
 }

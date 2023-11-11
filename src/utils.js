@@ -11,8 +11,10 @@ function readFile(filePath) {
 }
 
 function writeFile(path, fileBaseName, content) {
+	let file = `./${path}/${fileBaseName}.${path.substring(path.lastIndexOf("/") + 1, path.length).slice(0, -1)}.js`;
+	logd(file)
 
-	fs.writeFile(`./${path}/${fileBaseName}.${path.slice(0, -1)}.js`, content, { encoding: "utf8" }, (err) => {
+	fs.writeFile(file, content, { encoding: "utf8" }, (err) => {
 		if (err) {
 			if(err.code==='ENOENT') {
 				fs.mkdirSync(`./${path}/`, { recursive: true });

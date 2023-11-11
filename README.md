@@ -64,4 +64,4 @@ The basic structure file is as follows:
     		└ myFile.controller.js
     	└ services
     		└ myFile.service.js
-Also there is a [structure example](examples/).
+Also there is a [structure example](example/).
